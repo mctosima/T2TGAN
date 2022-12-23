@@ -1,7 +1,3 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-import os
 import glob
 import torch
 import torch.nn as nn
@@ -53,11 +49,11 @@ def main():
     HID_DIM = 512
     N_LAYERS = 2
     ENC_DROPOUT = 0.5
-    DEC_DROPPOUT = 0.5
+    DEC_DROPOUT = 0.5
 
     # create encoder and decoder
     encoder = ABPEncoder(INPUT_DIM, HID_DIM, N_LAYERS, ENC_DROPOUT)
-    decoder = ABPDecoder(1, HID_DIM, OUTPUT_DIM, N_LAYERS, DEC_DROPPOUT)
+    decoder = ABPDecoder(OUTPUT_DIM, HID_DIM, N_LAYERS, DEC_DROPOUT)
     encoder.apply(init_weights)
     decoder.apply(init_weights)
 

@@ -9,17 +9,19 @@ We want to make a seq2seq model that can predict ABP from PPG and ECG.
 
 # create ABP sequence encoder
 class ABPEncoder(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, dropout):
+    def __init__(self, input_dim, hid_dim, n_layers, dropout):
         super(ABPEncoder, self).__init__()
-        self.hidden_size = hidden_size
-        self.num_layers = num_layers
+        self.hid_dim = hid_dim
+        self.n_layers = n_layers
         self.dropout = dropout
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.lstm = nn.LSTM(input_dim, hid_dim, n_layers, dropout=dropout, batch_first=True)
         
     def forward(self, x):
         # set initial hidden and cell states
-        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size)
-        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size)
+        h0 = torch.zeros(self.n_layers, x.size(0), self.hid_dim).cuda() # always to cuda
+        # print(h0.device)
+        c0 = torch.zeros(self.n_layers, x.size(0), self.hid_dim).cuda() # always to cuda
+        # print(c0.device)
         # forward propagate LSTM
         out, (h_n, c_n) = self.lstm(x, (h0, c0))
         # return the final hidden state and cell state
