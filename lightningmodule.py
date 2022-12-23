@@ -67,8 +67,8 @@ class Seq2Seq(pl.LightningModule):
         return {"loss": loss, "rmse_value": rmse_value}
 
     def training_epoch_end(self, outputs):
-        avg_loss = torch.stack([x[0] for x in outputs]).mean()
-        avg_rmse = torch.stack([x[1] for x in outputs]).mean()
+        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        avg_rmse = torch.stack([x["rmse_value"] for x in outputs]).mean()
         self.log('avg_train_loss', avg_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         self.log('avg_train_rmse', avg_rmse, on_step=False, on_epoch=True, prog_bar=True, logger=True)
 

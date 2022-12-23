@@ -2,3 +2,5 @@ dataset
 __pycache__
 *.zip
 wandb
+lightning_logs
+checkpoints
